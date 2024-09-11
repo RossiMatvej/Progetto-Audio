@@ -1,0 +1,6 @@
+- L'utente deve poter inserire un file o una cartella.
+- Deve poter filtrare i tipi di file audio che vuole.
+- Deve poter scegliere la cartella di destinazione.
+- Deve poter scegliere la qualità audio.
+- Vedere i suoi file output.
+- Vedere il caricamento.
