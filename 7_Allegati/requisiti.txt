@@ -1,0 +1,19 @@
+- GUI / CMD
+- Input: File sorgente o cartella.
+- Cartella intera da filtrare
+- Conversione del file nel formato scelto dall'utente. (??)
+- Filtrare file tramite estensione corretta.
+- Output: file o più files.
+- Scelta dell'utente del tipo di file dell'output.
+- Tipi di file da scegliere: MP3, FLAC, WAV, OGG, AAC
+- Bitrate a scelta dell'utente. (Da informarsi) --> controllo del bitrate da basso a alto.
+- Scelta della cartella di destinazione. (Default: cartella sorgente)
+- Controllo file già esistente.
+- Controllo avanzamento
+- Gestione errori (Anche a terminale)
+- Scelta avanzamento in caso di errore.
+- Controllo del Magic Number o che il file sia compatibile
+- Controllo di lettura dei file.
+- Controllo di scrittura del file output.
+- Controllo del raggiungimento di un server se la scelta del file non è locale.
+- Controllo di un massimo di grandezza dei file / cartella.
