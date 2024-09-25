@@ -1,0 +1,3 @@
+classi:
+classe Converter:
+classe Validator: - nel metodo isValid che richiama tutti i metodi privati la "value" è richiamata per esempio dal metodo Converter (ES. isValid(Converter.getName()

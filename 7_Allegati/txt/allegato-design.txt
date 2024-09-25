@@ -1,0 +1,5 @@
+Attività del 25.09.2024 - Design
+
+- Diagramma dell'architettura -> Semplice rappresentazione del sistema del tuo progetto.
+- Diagramma di flusso (Activity Diagram) -> Scegliere se fare in Swimlane.
+- Diagramma delle classi.
