@@ -1,0 +1,6 @@
+- QDC, da fare.
+- Design UI.
+- Documentazione.
+- Diagramma delle classi da finire. (fatto)
+- Modello Abstract Cartella 2_
+

@@ -1,13 +1,14 @@
-@startuml name
-package "Progetto Audio"{
+@startuml diagramma
+package "AudioConverter"{
     class Converter{
         - name: String
-        - quality: Type
+        - quality: double
         - format: String
         - destination: String
         + Converter()
         + convertFile()
-        
+        - getFile()
+        - renameFile()
     }
 
     class Validator {
@@ -17,11 +18,11 @@ package "Progetto Audio"{
         + TYPE_DESTINATION
         + TYPE_QUALITY
         + Validator()
-        + isValid(value, valueType)
-        - isNameValid(value)
-        - isFormatValid(value)
-        - isDestinationValid(value)
-        - isQualityValid(value)
+        + isValid()
+        - isNameValid()
+        - isFormatValid()
+        - isDestinationValid()
+        - isQualityValid()
         
     }
 
