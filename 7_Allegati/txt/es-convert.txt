@@ -1,0 +1,62 @@
+Converting from One File Format to Another
+This section covers the fundamentals of converting audio file types in the Java Sound API. Once again we pose a hypothetical program whose purpose, 
+this time, is to read audio data from an arbitrary input file and write it into a file whose type is AIFF. Of course, the input file must be of 
+a type that the system is capable of reading, and the output file must be of a type that the system is capable of writing. 
+(In this example, we assume that the system is capable of writing AIFF files.) The example program doesn't do any data format conversion. 
+If the input file's data format can't be represented as an AIFF file, the program simply notifies the user of that problem. On the other hand, if the input sound file is 
+an already an AIFF file, the program notifies the user that there is no need to convert it.
+
+The following function implements the logic just described:
+
+public void ConvertFileToAIFF(String inputPath, 
+  String outputPath) {
+  AudioFileFormat inFileFormat;
+  File inFile;
+  File outFile;
+  try {
+    inFile = new File(inputPath);
+    outFile = new File(outputPath);     
+  } catch (NullPointerException ex) {
+    System.out.println("Error: one of the 
+      ConvertFileToAIFF" +" parameters is null!");
+    return;
+  }
+  try {
+    // query file type
+    inFileFormat = AudioSystem.getAudioFileFormat(inFile);
+    if (inFileFormat.getType() != AudioFileFormat.Type.AIFF) 
+    {
+      // inFile is not AIFF, so let's try to convert it.
+      AudioInputStream inFileAIS = 
+        AudioSystem.getAudioInputStream(inFile);
+      inFileAIS.reset(); // rewind
+      if (AudioSystem.isFileTypeSupported(
+             AudioFileFormat.Type.AIFF, inFileAIS)) {
+         // inFileAIS can be converted to AIFF. 
+         // so write the AudioInputStream to the
+         // output file.
+         AudioSystem.write(inFileAIS,
+           AudioFileFormat.Type.AIFF, outFile);
+         System.out.println("Successfully made AIFF file, "
+           + outFile.getPath() + ", from "
+           + inFileFormat.getType() + " file, " +
+           inFile.getPath() + ".");
+         inFileAIS.close();
+         return; // All done now
+       } else
+         System.out.println("Warning: AIFF conversion of " 
+           + inFile.getPath()
+           + " is not currently supported by AudioSystem.");
+    } else
+      System.out.println("Input file " + inFile.getPath() +
+          " is AIFF." + " Conversion is unnecessary.");
+  } catch (UnsupportedAudioFileException e) {
+    System.out.println("Error: " + inFile.getPath()
+        + " is not a supported audio file type!");
+    return;
+  } catch (IOException e) {
+    System.out.println("Error: failure attempting to read " 
+      + inFile.getPath() + "!");
+    return;
+  }
+}
