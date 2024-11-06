@@ -6,6 +6,11 @@ class Converter {
     private String destination;
     private double quality;
     
+    //Possibilità di istanziare un costruttore vuoto X TEST
+    public Converter(){
+        
+    }
+    
     public Converter(String name, String format, String destination, double quality){
         this.name = name;
         this.format = format; //MP3, FLAC, WAV, OGG, AAC, M4A
@@ -13,11 +18,15 @@ class Converter {
         this.quality = quality;
     }
     
-    public Converter(){
-        
+    
+    //Ritorna non solo il nome ma il nome più l'estensione.
+    public String getNameFormat() {
+        setFormat(this.format);
+        return this.name+this.format;
     }
-
-    public String getName() {
+    
+    //Ritorna solamente il nome del file.
+    public String getName(){
         return name;
     }
 
@@ -32,11 +41,14 @@ class Converter {
         return format;
     }
 
+    //Controlla tutti i formati possibili e trova un formato non valido mette 
+    // "Invalid format" al formato.
     public void setFormat(String format) {
         String[] allFormats = {"MP3", "FLAC", "WAV", "OGG", "AAC", "M4A"};
-        for(int i = 0; i < allFormats.length;i++){
-            if(!(format.equals(allFormats[i]))){
-                format = "";
+        for (String formatCheck : allFormats) {
+            if (!(format.equals(formatCheck))) {
+                format = "Invalid format";
+                break;
             }
         }
         this.format = format;
@@ -45,8 +57,7 @@ class Converter {
     public String getDestination() {
         return destination;
     }
-
-    //Path
+    
     public void setDestination(String destination) {
         this.destination = destination;
     }
@@ -54,7 +65,8 @@ class Converter {
     public double getQuality() {
         return quality;
     }
-
+    
+    //Importante: trovare tutti i tipi di Bitrate possibili.
     public void setQuality(double quality) {
         this.quality = quality;
     }
