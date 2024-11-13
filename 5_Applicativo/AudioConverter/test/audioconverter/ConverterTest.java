@@ -61,4 +61,23 @@ public class ConverterTest {
         
     }
     
+    /**
+     * Test che controlla il funzionamento del setFormat(), in modo da ritornare
+     * il formato MP3 come formato corretto.
+     */
+    @Test
+    public void testCorrectFormat() {
+        System.out.println("-- TEST CORRECT FORMAT -- ");
+        Converter instance = new Converter();
+        String format = "mp3";
+        String expected = "MP3";
+        instance.setFormat(format);
+        String returnFormat = instance.getFormat();
+        
+        
+        //Formato dovrà essere uguale a "MP3", visto che è corretto.
+        assertEquals(expected,returnFormat);
+        
+    }
+    
 }

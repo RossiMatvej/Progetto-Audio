@@ -1,28 +1,32 @@
 package audioconverter;
 
+import java.io.File;
+
 class Converter {
     private String name;
     private String format;
     private String destination;
-    private double quality;
+    private int bitrate;
     
-    //Possibilità di istanziare un costruttore vuoto X TEST
-    public Converter(){
-        
+    // Costruttore di default (con valori predefiniti)
+    public Converter() {
+        this.name = "Undefined";
+        this.format = "MP3";  // formato di default
+        this.destination = null;
+        this.bitrate = 128; // bitrate di default
     }
-    
-    public Converter(String name, String format, String destination, double quality){
+    public Converter(String name, String format, String destination, int bitrate){
         this.name = name;
-        this.format = format; //MP3, FLAC, WAV, OGG, AAC, M4A
+        setFormat(format); //MP3, FLAC, WAV, OGG, AAC, M4A
         this.destination = destination;
-        this.quality = quality;
+        this.bitrate = bitrate;
     }
     
     
     //Ritorna non solo il nome ma il nome più l'estensione.
     public String getNameFormat() {
         setFormat(this.format);
-        return this.name+this.format;
+        return this.name+this.format.toLowerCase();
     }
     
     //Ritorna solamente il nome del file.
@@ -43,32 +47,56 @@ class Converter {
 
     //Controlla tutti i formati possibili e trova un formato non valido mette 
     // "Invalid format" al formato.
-    public void setFormat(String format) {
+    // Metodo messo "final" così da togliere la possibilità di fare un Override.
+    public final void setFormat(String format) {
+        
+        format = format.toUpperCase();
+        
+        boolean check = true;
+        
         String[] allFormats = {"MP3", "FLAC", "WAV", "OGG", "AAC", "M4A"};
         for (String formatCheck : allFormats) {
             if (!(format.equals(formatCheck))) {
-                format = "Invalid format";
+                check = false;
+            }else{
+                check = true;
                 break;
             }
         }
-        this.format = format;
+        
+        if(check){
+            this.format = format;
+        }else{
+            this.format = "Invalid format";
+        }
     }
 
     public String getDestination() {
         return destination;
     }
     
+    // Controlla che la destinazione sia una directory valida e scrivibile
     public void setDestination(String destination) {
-        this.destination = destination;
+        File dir = new File(destination);
+        if (!dir.exists()) {
+            this.destination = null;
+        } else if (!dir.canWrite()) {
+            this.destination = null;
+        } else {
+            this.destination = destination;
+        }
     }
 
-    public double getQuality() {
-        return quality;
+    public int getBitrate() {
+        return bitrate;
     }
     
-    //Importante: trovare tutti i tipi di Bitrate possibili.
-    public void setQuality(double quality) {
-        this.quality = quality;
+    //Per settare tutti i tipi di bitrate.
+    public void setBitrate(int bitrate) {
+        if (bitrate <= 0) {
+            throw new IllegalArgumentException("Bitrate invalid.");
+        }
+        this.bitrate = bitrate;
     }
     
     
