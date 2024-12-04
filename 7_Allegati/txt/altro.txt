@@ -1,0 +1,4 @@
+-- Fare indice delle figure.
+-- GUI SWING Vedi come si fa.
+-- Input dell'utente / Parametrizzazione del Main. (vedi altro)
+-- Finire classe Test per Converter.

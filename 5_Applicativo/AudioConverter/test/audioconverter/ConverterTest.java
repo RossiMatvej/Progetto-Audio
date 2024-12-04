@@ -51,9 +51,9 @@ public class ConverterTest {
     public void testEmptyFormat() {
         System.out.println("-- TEST EMPTY FORMAT -- ");
         Converter instance = new Converter();
-        String format = "   ";
+        String name = "file";
         String expected = "Invalid format";
-        instance.setFormat(format);
+        instance.setFormat(name);
         String returnFormat = instance.getFormat();
         
         //Formato dovrà essere uguale a "Invalid format"
@@ -69,9 +69,10 @@ public class ConverterTest {
     public void testCorrectFormat() {
         System.out.println("-- TEST CORRECT FORMAT -- ");
         Converter instance = new Converter();
-        String format = "mp3";
+        String name = "file.mp3";
         String expected = "MP3";
-        instance.setFormat(format);
+        instance.setFormat(name);
+        //System.out.println(instance.getName());
         String returnFormat = instance.getFormat();
         
         
