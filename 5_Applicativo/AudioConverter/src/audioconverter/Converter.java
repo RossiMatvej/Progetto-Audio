@@ -109,9 +109,9 @@ class Converter {
     public void setPath(String path) {
         File dir = new File(path);
         if (!dir.exists()) {
-            path = null;
+            path = "Not found";
         }if (!dir.canWrite()) {
-            path = null;
+            path = "Not found";
         }
         
         this.path = path;
@@ -148,13 +148,13 @@ class Converter {
     public void setOutputPath(String outputPath) {
         File path = new File(outputPath);
         if(!(path.exists())){
-            outputPath = null;
+            outputPath = "Not found";
         }
         if(!(path.isDirectory())){
-            outputPath = null;
+            outputPath = "Not found";
         }
         if(!(path.canWrite())){
-            outputPath = null;
+            outputPath = "Not found";
         }
         this.outputPath = outputPath;
     }

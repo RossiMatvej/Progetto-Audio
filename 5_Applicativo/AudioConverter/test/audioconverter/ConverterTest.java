@@ -31,7 +31,7 @@ public class ConverterTest {
      */
     @Test
     public void testNameEmpty() {
-        System.out.println("-- TEST NAME EMPTY -- ");
+        System.out.println("-- TEST NAME EMPTY --");
         Converter instance = new Converter();
         String name = "      ";
         String expected = "Undefined";
@@ -45,11 +45,11 @@ public class ConverterTest {
 
     /**
      * Test che controlla il funzionamento del setFormat(), in modo da ritornare
-     * "Invalid format" se il formato è una stringa vuota.
+     * "Invalid format" se il formato è inesistente.
      */
     @Test
     public void testEmptyFormat() {
-        System.out.println("-- TEST EMPTY FORMAT -- ");
+        System.out.println("-- TEST EMPTY FORMAT --");
         Converter instance = new Converter();
         String name = "file";
         String expected = "Invalid format";
@@ -67,7 +67,7 @@ public class ConverterTest {
      */
     @Test
     public void testCorrectFormat() {
-        System.out.println("-- TEST CORRECT FORMAT -- ");
+        System.out.println("-- TEST CORRECT FORMAT --");
         Converter instance = new Converter();
         String name = "file.mp3";
         String expected = "MP3";
@@ -80,5 +80,40 @@ public class ConverterTest {
         assertEquals(expected,returnFormat);
         
     }
+    
+    /**
+     * Test che controlla se il setPath() funzioni in modo 
+     * da controllare se una path non è una path.
+     */
+    @Test
+    public void testEmptyPath(){
+        System.out.println("-- TEST EMPTY PATH");
+        Converter instance = new Converter();
+        String path = "ciao";
+        String expected = "Not found";
+        instance.setPath(path);
+        String returnPath = instance.getPath();
+        
+        //Path dovrebbe essere "Not found"
+        assertEquals(expected,returnPath);
+    }
+    
+    /**
+     * Test che controlla se il setPath() restituisce
+     * che la path sia corretta.
+     */
+    @Test
+    public void testCorrectPath(){
+        System.out.println("-- TEST CORRECT PATH");
+        Converter instance = new Converter();
+        String path = "C:/Users/matvej.rossi/";
+        String expected = path;
+        instance.setPath(path);
+        String returnPath = instance.getPath();
+        
+        //Path dovrebbe essere "Not found"
+        assertEquals(expected,returnPath);
+    }
+    
     
 }

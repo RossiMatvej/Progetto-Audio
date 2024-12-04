@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 
 class Validator {
     
-    private static String pathExe = "C:\\Users\\matvej.rossi\\ffmpeg\\ffmpeg-master-latest-win64-gpl\\bin\\";
+    private static String pathExe = System.getenv("ffmpegPath");
     
     
     private static boolean isValidConverter(Converter converter) {
@@ -28,7 +28,7 @@ class Validator {
     }
     
     
-    //Serve a settare un eventuale path diversa per l'utente da quella di default 
+    //Serve a settare un eventuale path diversa per l'utente.
     public void setPathExe(String pathExe){
         File path = new File(pathExe);
         if(!path.isDirectory()){
@@ -55,6 +55,7 @@ class Validator {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(command.split(" "));
             processBuilder.redirectErrorStream(true);
+            
             processBuilder.directory(new File(pathExe));
             Process process = processBuilder.start();
             InputStream inputStream = process.getInputStream();
@@ -64,10 +65,10 @@ class Validator {
                 System.out.println(line);
             }
             process.waitFor();
-            System.out.println("Conversione completata.");
+            System.out.println("Conversion succeded.");
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            System.out.println("Errore nella conversione.");
+            e.getMessage();
+            System.out.println("\nConversion failed.");
         }
     }
     
