@@ -69,7 +69,7 @@ public class ConverterTest {
     public void testCorrectFormat() {
         System.out.println("-- TEST CORRECT FORMAT --");
         Converter instance = new Converter();
-        String name = "file.mp3";
+        String name = "cat_meow.mp3";
         String expected = "MP3";
         instance.setFormat(name);
         //System.out.println(instance.getName());

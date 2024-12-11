@@ -2,36 +2,35 @@ package audioconverter;
 
 import java.io.File;
 
-class Converter {
+final class Converter {
     private String name; //Nome completo del file + estensione (ES. file.mp3)
     private String format; // Formato preso in base al nome (ES. "MP3")
-    private String path;
-    private int bitrate;
-    private int outputBitrate;
-    private String outputPath;
-    private String outputName;
-    private String outputFormat;
+    private String path; 
+    private String defaultPath = "C:\\Users\\" + System.getProperty("user.name"); //Path di default per Output
+    private int bitrate; //Facoltativo
+    private String outputPath; //Facoltativo
+    private String outputName; //Facoltativo
+    private String outputFormat; 
 
     
     
     // Costruttore di default (con valori predefiniti)
     public Converter() {
-        this.name = "file.mp3";
+        this.name = "fileConverter.mp3";
         this.format = "MP3";  // formato di default
         this.path = null;
         this.bitrate = 128; // bitrate di default
-        this.outputBitrate = this.bitrate;
-        this.outputPath = this.path;
-        this.outputName = this.name;
-        this.outputFormat = this.format;
+        this.outputPath = this.defaultPath;
+        this.outputFormat = "ogg";
+        this.outputName = this.getOnlyName() + "." + this.outputFormat;
+        
     }
     
-    public Converter(String name, String format, String path, int bitrate, int outputBitrate ,String outputPath, String outputName, String outputFormat){
+    public Converter(String name, String format, String path, int bitrate ,String outputPath, String outputName, String outputFormat){
         this.name = name;
         this.format = format;
         this.path = path;
         this.bitrate = bitrate;
-        this.outputBitrate = outputBitrate;
         this.outputPath = outputPath;
         this.outputName = outputName;
         this.outputFormat = outputFormat;
@@ -48,8 +47,13 @@ class Converter {
         if(this.name.equals("Undefined")){
             return "Undefined";
         }else{
-            String[] splitName = this.name.split(".");
-            return splitName[0];
+            try{
+                String[] splitName = this.name.split("\\.");
+                return splitName[0];
+            }catch(Exception e){
+                return "Undefined";
+            }
+            
         }
     }
 
@@ -69,7 +73,7 @@ class Converter {
     public final void setFormat(String name) {
         boolean check = true;
         String formatLocal = null;
-        setName(name);
+        //setName(name);
         if(name.equals("Undefined")){
             check = false;
         }else{
@@ -129,17 +133,6 @@ class Converter {
         }
         this.bitrate = bitrate;
     }
-    
-    public double getOutputBitrate() {
-        return outputBitrate;
-    }
-
-    public void setOutputBitrate(int outputBitrate) {
-        if(outputBitrate <= 0){
-            bitrate = -1;
-        }
-        this.outputBitrate = outputBitrate;
-    }
 
     public String getOutputPath() {
         return outputPath;
@@ -148,13 +141,13 @@ class Converter {
     public void setOutputPath(String outputPath) {
         File path = new File(outputPath);
         if(!(path.exists())){
-            outputPath = "Not found";
+            outputPath = this.defaultPath;
         }
         if(!(path.isDirectory())){
-            outputPath = "Not found";
+            outputPath = this.defaultPath;
         }
         if(!(path.canWrite())){
-            outputPath = "Not found";
+            outputPath = this.defaultPath;
         }
         this.outputPath = outputPath;
     }
@@ -163,8 +156,19 @@ class Converter {
         return outputName;
     }
 
+    //Controlla anche che nella directory dove verrà salvato il file 
+    //non ci sia un file con lo stesso nome
     public void setOutputName(String outputName) {
-        File outFile = new File(outputName);
+        File outFile = new File(this.outputPath, outputName);
+        if(!(outFile.exists())){
+            outputName = "fileConverter" + this.format;
+        }
+        if(outputName.isBlank() || outputName.isEmpty()){
+            outputName = "fileConverter" + this.format;
+        }
+        if(this.name.equals(outputName)){
+            outputName = "fileConverter" + this.format;
+        }
         this.outputName = outputName;
     }
     
@@ -172,8 +176,36 @@ class Converter {
         return outputFormat;
     }
 
-    public void setOutputFormat(String outputFormat) {
-        this.outputFormat = outputFormat;
+    public void setDefaultPath(String defaultPath){
+        System.out.println("");
+    }
+    
+    public String getDefaultPath(){
+        return this.defaultPath;
+    }
+    
+    //Metodo specifico per settare il formato in uscita.
+    public void setOutputFormat(String outputFormat){
+        boolean check = true;
+        
+        outputFormat = outputFormat.toUpperCase();
+        
+        String[] allFormats = {"MP3", "FLAC", "WAV", "OGG", "AAC", "M4A"};
+            for (String formatCheck : allFormats) {
+                if (!(formatCheck.equals(outputFormat))) {
+                    check = false;
+                }else{
+                    check = true;
+                    break;
+                }
+            }
+        if(check){
+            this.outputFormat = outputFormat;
+        }else{
+            this.outputFormat = "Invalid format";
+        }
+        
+        
     }
 
     
