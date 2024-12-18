@@ -106,8 +106,12 @@ public class ConverterTest {
     public void testCorrectPath(){
         System.out.println("-- TEST CORRECT PATH");
         Converter instance = new Converter();
-        String path = "C:/Users/matvej.rossi/";
+        instance.setName("test.mp3");
+        //String path = "C:/Users/matvej.rossi/";
+        String path = "C:/Users/matve/";
         String expected = path;
+        //SETPATH --> Controlla anche che il file in input sia nella directory!
+        //SETPATH --> Formato e Nome devono essere settati
         instance.setPath(path);
         String returnPath = instance.getPath();
         

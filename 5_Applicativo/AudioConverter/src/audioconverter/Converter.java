@@ -1,28 +1,30 @@
 package audioconverter;
 
 import java.io.File;
+import java.util.UUID;
 
 final class Converter {
     private String name; //Nome completo del file + estensione (ES. file.mp3)
     private String format; // Formato preso in base al nome (ES. "MP3")
     private String path; 
-    private String defaultPath = "C:\\Users\\" + System.getProperty("user.name"); //Path di default per Output
+    private final String defaultPath = "C:\\Users\\" + System.getProperty("user.name"); //Path di default per Output
     private int bitrate; //Facoltativo
     private String outputPath; //Facoltativo
     private String outputName; //Facoltativo
-    private String outputFormat; 
+    private String outputFormat;
 
     
     
     // Costruttore di default (con valori predefiniti)
     public Converter() {
-        this.name = "fileConverter.mp3";
+        this.name = "FileInput";
         this.format = "MP3";  // formato di default
         this.path = null;
         this.bitrate = 128; // bitrate di default
         this.outputPath = this.defaultPath;
-        this.outputFormat = "ogg";
-        this.outputName = this.getOnlyName() + "." + this.outputFormat;
+        this.outputFormat = null;
+        this.outputName = "FileOutput";
+        
         
     }
     
@@ -73,7 +75,6 @@ final class Converter {
     public final void setFormat(String name) {
         boolean check = true;
         String formatLocal = null;
-        //setName(name);
         if(name.equals("Undefined")){
             check = false;
         }else{
@@ -112,10 +113,15 @@ final class Converter {
     // Controlla che il percorso sia una directory o file valido e scrivibile
     public void setPath(String path) {
         File dir = new File(path);
+        
+        //Per controllare che nella Path esista il file in input:
+        boolean checkExists = new File(path + "\\" + this.name).exists();
         if (!dir.exists()) {
             path = "Not found";
-        }if (!dir.canWrite()) {
+        }else if (!dir.canWrite()) {
             path = "Not found";
+        }else if(!checkExists){
+            path = "Not exists";
         }
         
         this.path = path;
@@ -140,13 +146,19 @@ final class Converter {
 
     public void setOutputPath(String outputPath) {
         File path = new File(outputPath);
+        boolean check = false;
         if(!(path.exists())){
-            outputPath = this.defaultPath;
+            check = true;
         }
         if(!(path.isDirectory())){
-            outputPath = this.defaultPath;
+            check = true;
+            
         }
         if(!(path.canWrite())){
+            check = true;
+        }
+        if(check){
+            System.out.println("Warning: output path was not valid --> default path: " + this.getDefaultPath());
             outputPath = this.defaultPath;
         }
         this.outputPath = outputPath;
@@ -158,26 +170,24 @@ final class Converter {
 
     //Controlla anche che nella directory dove verrà salvato il file 
     //non ci sia un file con lo stesso nome
-    public void setOutputName(String outputName) {
-        File outFile = new File(this.outputPath, outputName);
-        if(!(outFile.exists())){
-            outputName = "fileConverter" + this.format;
+    public void setOutputName(String outputName, boolean overwrite) {
+        File outFile = new File(this.outputPath, outputName + "." + this.outputFormat);
+        boolean check = false;
+        if(outFile.exists()){
+            check = true;
         }
         if(outputName.isBlank() || outputName.isEmpty()){
-            outputName = "fileConverter" + this.format;
+            check = true;
         }
-        if(this.name.equals(outputName)){
-            outputName = "fileConverter" + this.format;
+        if(check && !overwrite){
+            outputName = this.generateFileName(this.outputPath);
+            System.out.println("Warning: output name was not valid --> has been set to " + outputName + "." + this.outputFormat);
         }
-        this.outputName = outputName;
+        this.outputName = outputName + "." + this.outputFormat;
     }
     
     public String getOutputFormat() {
         return outputFormat;
-    }
-
-    public void setDefaultPath(String defaultPath){
-        System.out.println("");
     }
     
     public String getDefaultPath(){
@@ -200,12 +210,24 @@ final class Converter {
                 }
             }
         if(check){
-            this.outputFormat = outputFormat;
+            this.outputFormat = outputFormat.toLowerCase();
         }else{
             this.outputFormat = "Invalid format";
         }
-        
-        
+    }
+    
+    public String generateFileName(String path){
+        String uniqueFileName;
+        File file;
+        do {
+            // Genera un nome univoco utilizzando UUID
+            uniqueFileName = UUID.randomUUID().toString();
+
+            // Percorso completo del file
+            file = new File(path, uniqueFileName);
+        } while (file.exists()); // Ripeti finché il file esiste
+
+        return uniqueFileName;
     }
 
     
