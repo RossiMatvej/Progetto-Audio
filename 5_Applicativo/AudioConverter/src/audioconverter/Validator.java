@@ -65,7 +65,6 @@ class Validator {
     
     
     private static String buildFFMPEGCommand(Converter converter, boolean overwrite) {
-        
         String inputFilePath = "\"" + converter.getPath() + converter.getName() + "\"";  // Nome del file di input
         String outputFilePath = converter.getOutputPath() + "\\" + converter.getOutputName(); // Percorso di output
         double outBitrate = converter.getBitrate();  // Qualità del file in output
@@ -109,8 +108,7 @@ class Validator {
                     if(line.toLowerCase().contains("error")){
                         System.out.println(line);
                         checkOut = false;
-                    }
-                    
+                    }  
                 }
                 
                 if(checkOut){
